@@ -67,12 +67,21 @@ public class Node
 
         // create our left and right children based on the direction of the split
         if (splitH) {
-            leftChild = new Node(posX, posZ, width, split);
-            rightChild = new Node(posX, posZ + split, width, height - split);
+            //leftChild = new Node(posX, posZ, width, split);
+            //rightChild = new Node(posX, posZ + split, width, height - split);
+            leftChild = new Node((int)room.transform.localScale.x,(int) room.transform.localScale.y,(int) room.transform.localScale.x, split);
+            rightChild = new Node(
+                (int)room.transform.position.x,
+                (int)room.transform.position.z - (int)((split - room.transform.localScale.z) / 2), (int)room.transform.localScale.x, split );
         }
         else {
-            leftChild = new Node(posX, posZ, split, height);
-            rightChild = new Node(posX + split, posZ, width - split, height);
+            //leftChild = new Node(posX, posZ, split, height);
+            //rightChild = new Node(posX + split, posZ, width - split, height);
+            leftChild = new Node((int)room.transform.position.x - (int)((split - room.transform.localScale.x) / 2),
+                                (int)room.transform.position.z, (int)room.transform.localScale.x, (int)room.transform.localScale.z);
+
+            rightChild = new Node((int)(split - (room.transform.localScale.x) / 2),
+               (int) room.transform.position.z, (int)room.transform.localScale.x, (int)room.transform.localScale.z);
         }
         Debug.Log(nodes.Count);
         for (int i = 0; i < nodes.Count; i++) {
@@ -103,10 +112,13 @@ public class Node
             Vector3 roomSize;
             Vector3 roomPos;
             // the room can be between 3 x 3 tiles to the size of the leaf - 2.
-            room.transform.localScale = new Vector3(Random.Range(3, width - 2), Random.Range(3, height - 2));
+            room.transform.localScale = new Vector3(Random.Range(10, width - 2), Random.Range(10, height - 2));
             // place the room within the Leaf, but don't put it right 
             // against the side of the Leaf (that would merge rooms together)
-            room.transform.position = new Vector3(Random.Range(1, width - room.transform.localScale.x - 1), Random.Range(1, height - room.transform.localScale.z - 1));
+            room.transform.position = new Vector3(Random.Range(1,room.transform.position.x - (room.transform.localScale.x / 2)), room.transform.position.y,
+                                                Random.Range(1, room.transform.position.z - (room.transform.localScale.z/2)));
+
+            //= new Vector3(Random.Range(1, width - room.transform.localScale.x - 1), Random.Range(1, height - room.transform.localScale.z - 1));
             room.GetComponent<Renderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
 
         }
