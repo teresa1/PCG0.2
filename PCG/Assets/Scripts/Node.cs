@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Node
+public class Node 
 {
     // the position and size of this Leaf
     private const int MIN_LEAF_SIZE = 6;
-    private const int MAX_LEAF_SIZE = 20;
     public int posX { get; private set; }
     public int posZ { get; private set; }
     public int width { get; private set; }
@@ -22,28 +21,22 @@ public class Node
     private Node root;
     // public var halls:Vector.; // hallways to connect this Leaf to other Leafs
 
-
-    private List<Node> nodes;
+        
     public Node(int PosX, int PosZ, int Width, int Height)
     {
-       
 
         posX = PosX;
         posZ = PosZ;
         height = Height;
         width = Width;
 
-        
-        CreatNodes();
-        split();
         createRooms();
 
 
     }
 
-    public bool split()
+    public bool split(List<Node> nodes)
     {
-        root = new Node(0, 0, width, height);
         // begin splitting the leaf into two children
         if (leftChild != null || rightChild != null)
             return false; // we're already split! Abort!
@@ -54,7 +47,7 @@ public class Node
         // otherwise we split randomly
 
 
-        if (Random.RandomRange(0, 2) > 0.5) {
+        if (Random.Range(0, 2) > 0.5) {
             splitH = true;
         }
 
@@ -84,43 +77,15 @@ public class Node
             leftChild = new Node(posX, posZ, split, height);
             rightChild = new Node(posX + split, posZ, width - split, height);
         }
-
+        Debug.Log(nodes.Count);
         for (int i = 0; i < nodes.Count; i++) {
-            root.createRooms();
+            createRooms();
         }
-        return true; // split successful!
-       
-        
+        return true; // split successful!   
     }
 
 
-    void CreatNodes()
-    {
-        nodes = new List<Node>();
-
-        nodes.Add(root);
-
-        bool did_split = true;
-        // we loop through every Leaf in our Vector over and over again, until no more Leafs can be split.
-        while (did_split) {
-            did_split = false;
-            for (int i = 0; i < nodes.Count; i++) {
-                if (helperNode.leftChild == null && helperNode.rightChild == null) // if this Leaf is not already split...
-                {
-                    // if this Leaf is too big, or 75% chance...
-                    if (helperNode.width > MAX_LEAF_SIZE || helperNode.height > MAX_LEAF_SIZE || Random.Range(0,2)> 0.25) {
-                        if (helperNode.split()) // split the Leaf!
-                        {
-                            // if we did split, push the child leafs to the Vector so we can loop into them next
-                            nodes.Add(helperNode.leftChild);
-                            nodes.Add(helperNode.rightChild);
-                            did_split = true;
-                        }
-                    }
-                }
-            }
-        }
-    }
+   
 
 
     public void createRooms()
@@ -137,20 +102,17 @@ public class Node
         }
         else {
             // this Leaf is the ready to make a room
+            room = GameObject.CreatePrimitive(PrimitiveType.Cube);
             Vector3 roomSize;
             Vector3 roomPos;
             // the room can be between 3 x 3 tiles to the size of the leaf - 2.
-            roomSize = new Vector3(Random.Range(3, width - 2), Random.Range(3, height - 2));
+            room.transform.localScale = new Vector3(Random.Range(3, width - 2), Random.Range(3, height - 2));
             // place the room within the Leaf, but don't put it right 
             // against the side of the Leaf (that would merge rooms together)
-            roomPos = new Vector3(Random.Range(1, width - roomSize.x - 1), Random.Range(1, height - roomSize.y - 1));
+            room.transform.position = new Vector3(Random.Range(1, width - room.transform.localScale.x - 1), Random.Range(1, height - room.transform.localScale.z - 1));
+            room.GetComponent<Renderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
 
-            room = GameObject.CreatePrimitive(PrimitiveType.Cube);
         }
     }
-
-
-
-
 }
 
