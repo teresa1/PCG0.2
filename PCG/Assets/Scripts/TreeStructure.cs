@@ -14,9 +14,7 @@ public class TreeStructure : MonoBehaviour
 
     void Start ()
     {
-	//Node node  = new Node(0,0,100,100);
         CreatNodes();
-    //node.split(nodes);
 
 	}
 
@@ -53,13 +51,6 @@ public class TreeStructure : MonoBehaviour
                     }
                 }
             }
-        }
-    }
-
-    void splitNodes()
-    {
-        for (int i = 0; i < nodes.Count; i++) {
-            nodes[i].split(nodes);
         }
     }
 

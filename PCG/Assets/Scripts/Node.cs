@@ -30,9 +30,6 @@ public class Node
         height = Height;
         width = Width;
 
-        createRooms();
-
-
     }
 
     public bool split(List<Node> nodes)
@@ -114,5 +111,6 @@ public class Node
 
         }
     }
+
 }
 
