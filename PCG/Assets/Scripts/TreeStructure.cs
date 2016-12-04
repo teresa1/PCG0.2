@@ -24,7 +24,7 @@ public class TreeStructure : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(new Vector3(worldWidth*0.5F, worldLenght*0.5F, 0.0F), new Vector3(worldWidth, worldLenght, 1.0F));
+        Gizmos.DrawWireCube(new Vector3(worldWidth*0.5F, worldLenght*0.5F, 0.0F), new Vector3(worldWidth, 1.0F, worldLenght));
 
         //for (int i = 0; i < nodes.Count; i++) {
         //    Gizmos.color = new Color(Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F));
@@ -87,13 +87,13 @@ public class TreeStructure : MonoBehaviour
         // this Leaf is the ready to make a room
         else {
             // the room can be between 3 x 3 tiles to the size of the leaf - 2.
-            Vector3 roomSize = new Vector3(rootNode.Width - RiverSize, rootNode.Height - RiverSize, 1.0F);
+            Vector3 roomSize = new Vector3(rootNode.Width - RiverSize, 1.0F, rootNode.Height - RiverSize);
             // place the room within the Leaf, but don't put it right 
             // against the side of the Leaf (that would merge rooms together)
-            Vector3 roomPos = new Vector3(rootNode.PosX, rootNode.PosZ);
+            Vector3 roomPos = new Vector3(rootNode.PosX,rootNode.PosZ, 0.0F);
 
             GameObject room = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            room.transform.position = new Vector3(roomPos.x + roomSize.x*0.5F, roomPos.y + roomSize.y*0.5F, 0.0F);
+            room.transform.position = new Vector3(roomPos.x + roomSize.x*0.5F,  0.0F, roomPos.y + roomSize.y * 0.5F);
             room.transform.localScale = roomSize;
             room.GetComponent<Renderer>().material.color = new Color(Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F));
 
