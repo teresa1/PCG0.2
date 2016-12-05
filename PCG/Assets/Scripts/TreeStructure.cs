@@ -6,6 +6,7 @@ public class TreeStructure : MonoBehaviour
 {
     private const int MaxLeafSize = 35;
 
+    const int RiverSize = 1;
     [SerializeField] private int worldWidth = 100;
     [SerializeField] private int worldLenght = 100;
 
@@ -64,7 +65,6 @@ public class TreeStructure : MonoBehaviour
         }
     }
 
-    const int RiverSize = 1;
 
     private void CreateRooms(Node rootNode)
     {
@@ -90,10 +90,10 @@ public class TreeStructure : MonoBehaviour
             Vector3 roomSize = new Vector3(rootNode.Width - RiverSize, 1.0F, rootNode.Height - RiverSize);
             // place the room within the Leaf, but don't put it right 
             // against the side of the Leaf (that would merge rooms together)
-            Vector3 roomPos = new Vector3(rootNode.PosX,rootNode.PosZ, 0.0F);
+            Vector3 roomPos = new Vector3(rootNode.PosX, 0.0F, rootNode.PosZ);
 
             GameObject room = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            room.transform.position = new Vector3(roomPos.x + roomSize.x*0.5F,  0.0F, roomPos.y + roomSize.y * 0.5F);
+            room.transform.position = new Vector3(roomPos.x + roomSize.x*0.5F,  0.0F, roomPos.z + roomSize.z * 0.5F);
             room.transform.localScale = roomSize;
             room.GetComponent<Renderer>().material.color = new Color(Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F));
 

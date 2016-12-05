@@ -8,7 +8,7 @@ public class Node
     #region Static Fields and Constants
 
     // the position and size of this Leaf
-    private const int MinLeafSize = 25;
+    private const int MinLeafSize = 20;
 
     #endregion
 
