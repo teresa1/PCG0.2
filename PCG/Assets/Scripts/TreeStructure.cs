@@ -144,12 +144,10 @@ public class TreeStructure : MonoBehaviour
         //float h = point2.y - point1.y;
 
         if (!horizontal) {
-            //  CreateRectangle(new Vector3(point1.x, 1, (point1.z+ point2.z)/2f), new Vector3(0.2f, 0.2f, Mathf.Abs(point1.z - point2.z)), "v");
-            CreateRectangle(new Vector3(point1.x, 1, (r.bottom + l.top) / 2f), new Vector3(0.2f, 0.2f, 1), "v");
+            CreateRectangle(new Vector3(point1.x, 1, (r.yMax + l.yMin) / 2f), new Vector3(1, 0.2f, 1), "v");
         }
         else {
-            CreateRectangle(new Vector3( (point1.x+ point2.x)/2f,1, point1.z), new Vector3( Mathf.Abs(point1.x- point2.x),0.2f,0.2f), "h");
-
+            CreateRectangle(new Vector3((l.xMin + r.xMax)/ 2, 1, point2.x), new Vector3(1, .2f, 1), "h");
         }
 
         //if (w < 0) {
