@@ -25,7 +25,7 @@ public class TreeStructure : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(new Vector3(worldWidth*0.5F, worldLenght*0.5F, 0.0F), new Vector3(worldWidth, 1.0F, worldLenght));
+        Gizmos.DrawWireCube(new Vector3(worldWidth*0.5F, 0.0F, worldLenght * 0.5F), new Vector3(worldWidth, 1.0F, worldLenght));
 
         //for (int i = 0; i < nodes.Count; i++) {
         //    Gizmos.color = new Color(Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F), Random.Range(0.0F, 1.0F));
@@ -124,11 +124,11 @@ public class TreeStructure : MonoBehaviour
 
         //TODO: DEBUG!
         GameObject rect = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        rect.transform.position = new Vector3(point1.x, point1.y, -1.0F);
+        rect.transform.position = new Vector3(point1.x, 1.0F, point1.z);
         rect.transform.localScale = Vector3.one*3;
 
         GameObject rect2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        rect2.transform.position = new Vector3(point2.x, point2.y, -1.0F);
+        rect2.transform.position = new Vector3(point2.x,  1.0F, point2.z);
         rect2.transform.localScale = Vector3.one * 3;
 
         Color color = new Color(Random.value, Random.value, Random.value);
@@ -143,62 +143,62 @@ public class TreeStructure : MonoBehaviour
         if (w < 0) {
             if (h < 0) {
                 if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point2.x,point1.y, point1.z), new Vector3(Mathf.Abs(w), 1,1)));
+                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y, point2.z), new Vector3(1,1, Mathf.Abs(h))));
                 }
                 else {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point2.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1)));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y , point2.z), new Vector3(1,1, Mathf.Abs(h))));
                 }
             }
             else if (h > 0) {
                 if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point1.z), new Vector3(Mathf.Abs(w), 1,1)));
+                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y,point1.z), new Vector3(1,1, Mathf.Abs(h))));
                 }
                 else {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(Mathf.Abs(w), 1,1)));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point2.y, point1.z), new Vector3(1,1, Mathf.Abs(h))));
                 }
             }
             else // if (h == 0)
             {
-                halls.Add(CreateRectangle(new Vector3(point2.x, point2.y), new Vector3(Mathf.Abs(w), 1)));
+                halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1 )));
             }
         }
         else if (w > 0) {
             if (h < 0) {
                 if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point2.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point2.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1)));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y, point2.z), new Vector3(1, Mathf.Abs(h))));
                 }
                 else {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y ,point1.z), new Vector3(Mathf.Abs(w), 1,1)));
+                    halls.Add(CreateRectangle(new Vector3(point2.x,point1.y, point2.z), new Vector3(1, 1, Mathf.Abs(h))));
                 }
             }
             else if (h > 0) {
                 if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point1.z), new Vector3(Mathf.Abs(w), 1,1 )));
+                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point1.z), new Vector3(1, Mathf.Abs(h))));
                 }
                 else {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point2.y), new Vector3(Mathf.Abs(w), 1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y), new Vector3(1, Mathf.Abs(h))));
+                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1 )));
+                    halls.Add(CreateRectangle(new Vector3(point1.x,point1.y, point1.z), new Vector3(1,1, Mathf.Abs(h))));
                 }
             }
             else // if (h == 0)
             {
-                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y), new Vector3(Mathf.Abs(w), 1)));
+                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y, point1.z), new Vector3(Mathf.Abs(w), 1,1)));
             }
         }
         else // if (w == 0)
         {
             if (h < 0) {
-                halls.Add(CreateRectangle(new Vector3(point2.x, point2.y), new Vector3(1, Mathf.Abs(h))));
+                halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(1,1, Mathf.Abs(h))));
             }
             else if (h > 0) {
-                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y), new Vector3(1, Mathf.Abs(h))));
+                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point1.z), new Vector3(1,1, Mathf.Abs(h))));
             }
         }
     }
@@ -209,7 +209,7 @@ public class TreeStructure : MonoBehaviour
     public GameObject CreateRectangle(Vector3 position, Vector3 size)
     {
         GameObject rect = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        rect.transform.position = new Vector3(position.x + size.x/2, position.y + size.y/2, -1.0F);
+        rect.transform.position = new Vector3(position.x + size.x/2, 1.0F, position.z + size.z / 2);
         rect.transform.localScale = size;
 
         rect.name = "Bridge";
