@@ -122,8 +122,8 @@ public class TreeStructure : MonoBehaviour
         //Vector3 point1 = new Vector3(Random.Range(GetLeft(l) /*+ 1*/, GetRight(l) /*- 2*/), Random.Range(GetBottom(l) /*- 2*/, GetTop(l) /*+ 1*/));
         //Vector3 point2 = new Vector3(Random.Range(GetLeft(r) /*+ 1*/, GetRight(r) /*- 2*/), Random.Range(GetBottom(r) /*- 2*/, GetTop(r) /*+ 1*/));
 
-        Vector3 point1 = new Vector3(l.x, 0, l.y);
-        Vector3 point2 = new Vector3(r.x, 0, r.y);
+        Vector3 point1 = new Vector3(l.center.x, 0, l.center.y);
+        Vector3 point2 = new Vector3(r.center.x, 0, r.center.y);
 
         //TODO: DEBUG!
         GameObject rect = GameObject.CreatePrimitive(PrimitiveType.Cube);
