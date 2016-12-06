@@ -48,7 +48,7 @@ public class Node
     [SerializeField] private int posZ;
     [SerializeField] private int width;
     [SerializeField] private int height;
-
+    [SerializeField] public bool horizontal;
     #endregion
 
     #endregion
@@ -89,6 +89,8 @@ public class Node
             splitH = false;
         else if (Height > Width && Height/Width >= 1.25F)
             splitH = true;
+
+        this.horizontal = splitH;
 
         int max;
 
@@ -151,6 +153,81 @@ public class Node
         return Random.value > 0.5F ? lRoom : rRoom;
     }
 
+    public GameObject GetLeftmostRoom()
+    {
+        if (room != null)
+            return room;
+
+        GameObject lRoom = null;
+        GameObject rRoom = null;
+
+        if (leftChild != null)
+            lRoom = leftChild.GetLeftmostRoom();
+
+        if (rightChild != null)
+            rRoom = rightChild.GetLeftmostRoom();
+
+        if (lRoom == null && rRoom == null)
+            return null;
+
+        if (rRoom == null)
+            return lRoom;
+
+        if (lRoom == null)
+            return rRoom;
+
+        return lRoom;
+    }
+
+    public Rect GetRectRoom()
+    {
+        if (room != null) 
+            return new Rect(room.transform.position.x, room.transform.position.z, room.transform.localScale.x, room.transform.localScale.z);
+
+        Rect lRoom = new Rect();
+        Rect rRoom = new Rect();
+
+        if (leftChild != null)
+            lRoom = leftChild.GetRectRoom();
+
+        if (rightChild != null)
+            rRoom = rightChild.GetRectRoom();
+
+
+        float x1, y1, x2, y2;
+        x1 = Mathf.Min(lRoom.xMin, rRoom.xMin);
+        x2 = Mathf.Max(lRoom.xMax, rRoom.xMax);
+        y1 =Mathf.Min(lRoom.yMin, rRoom.yMin);
+        y2 = Mathf.Max(lRoom.yMax, rRoom.yMax);
+        return new Rect((x2+x1)/2, (y1+y2)/2, x2-x1,y2-y1);
+
+
+    }
+    public GameObject GetRightmostRoom()
+    {
+        if (room != null)
+            return room;
+
+        GameObject lRoom = null;
+        GameObject rRoom = null;
+
+        if (leftChild != null)
+            lRoom = leftChild.GetRightmostRoom();
+
+        if (rightChild != null)
+            rRoom = rightChild.GetRightmostRoom();
+
+        if (lRoom == null && rRoom == null)
+            return null;
+
+        if (rRoom == null)
+            return lRoom;
+
+        if (lRoom == null)
+            return rRoom;
+
+        return rRoom;
+    }
     #endregion
 
     #endregion

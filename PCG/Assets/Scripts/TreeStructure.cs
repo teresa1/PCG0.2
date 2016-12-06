@@ -81,7 +81,10 @@ public class TreeStructure : MonoBehaviour
             // if there are both left and right children in this Leaf, create a hallway between them
             if (rootNode.LeftChild != null && rootNode.RightChild != null)
             {
-                CreateBridges(rootNode.LeftChild.GetRoom(), rootNode.RightChild.GetRoom());
+              
+                    CreateBridges(rootNode.LeftChild.GetRectRoom(), rootNode.RightChild.GetRectRoom(), !rootNode.horizontal);
+
+               
             }
         }
         // this Leaf is the ready to make a room
@@ -112,15 +115,15 @@ public class TreeStructure : MonoBehaviour
     /// </summary>.
     /// <param name="r"></param>
     /// <param name="l"></param>
-    public void CreateBridges(GameObject r, GameObject l)
+    public void CreateBridges(Rect r, Rect l, bool horizontal)
     {
         List<GameObject> halls = new List<GameObject>();
 
         //Vector3 point1 = new Vector3(Random.Range(GetLeft(l) /*+ 1*/, GetRight(l) /*- 2*/), Random.Range(GetBottom(l) /*- 2*/, GetTop(l) /*+ 1*/));
         //Vector3 point2 = new Vector3(Random.Range(GetLeft(r) /*+ 1*/, GetRight(r) /*- 2*/), Random.Range(GetBottom(r) /*- 2*/, GetTop(r) /*+ 1*/));
 
-        Vector3 point1 = l.transform.position;
-        Vector3 point2 = r.transform.position;
+        Vector3 point1 = new Vector3(l.x, 0, l.y);
+        Vector3 point2 = new Vector3(r.x, 0, r.y);
 
         //TODO: DEBUG!
         GameObject rect = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -137,82 +140,93 @@ public class TreeStructure : MonoBehaviour
 
 
 
-        float w = point2.x - point1.x;
-        float h = point2.y - point1.y;
+        //float w = point2.x - point1.x;
+        //float h = point2.y - point1.y;
 
-        if (w < 0) {
-            if (h < 0) {
-                if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point2.x,point1.y, point1.z), new Vector3(Mathf.Abs(w), 1,1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y, point2.z), new Vector3(1,1, Mathf.Abs(h))));
-                }
-                else {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y , point2.z), new Vector3(1,1, Mathf.Abs(h))));
-                }
-            }
-            else if (h > 0) {
-                if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point1.z), new Vector3(Mathf.Abs(w), 1,1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point2.y,point1.z), new Vector3(1,1, Mathf.Abs(h))));
-                }
-                else {
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(Mathf.Abs(w), 1,1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point2.y, point1.z), new Vector3(1,1, Mathf.Abs(h))));
-                }
-            }
-            else // if (h == 0)
-            {
-                halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1 )));
-            }
+        if (!horizontal) {
+            //  CreateRectangle(new Vector3(point1.x, 1, (point1.z+ point2.z)/2f), new Vector3(0.2f, 0.2f, Mathf.Abs(point1.z - point2.z)), "v");
+            CreateRectangle(new Vector3(point1.x, 1, (r.bottom + l.top) / 2f), new Vector3(0.2f, 0.2f, 1), "v");
         }
-        else if (w > 0) {
-            if (h < 0) {
-                if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1)));
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y, point2.z), new Vector3(1, Mathf.Abs(h))));
-                }
-                else {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y ,point1.z), new Vector3(Mathf.Abs(w), 1,1)));
-                    halls.Add(CreateRectangle(new Vector3(point2.x,point1.y, point2.z), new Vector3(1, 1, Mathf.Abs(h))));
-                }
-            }
-            else if (h > 0) {
-                if (Random.value < 0.5F) {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point1.z), new Vector3(Mathf.Abs(w), 1,1 )));
-                    halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point1.z), new Vector3(1, Mathf.Abs(h))));
-                }
-                else {
-                    halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1 )));
-                    halls.Add(CreateRectangle(new Vector3(point1.x,point1.y, point1.z), new Vector3(1,1, Mathf.Abs(h))));
-                }
-            }
-            else // if (h == 0)
-            {
-                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y, point1.z), new Vector3(Mathf.Abs(w), 1,1)));
-            }
+        else {
+            CreateRectangle(new Vector3( (point1.x+ point2.x)/2f,1, point1.z), new Vector3( Mathf.Abs(point1.x- point2.x),0.2f,0.2f), "h");
+
         }
-        else // if (w == 0)
-        {
-            if (h < 0) {
-                halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(1,1, Mathf.Abs(h))));
-            }
-            else if (h > 0) {
-                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point1.z), new Vector3(1,1, Mathf.Abs(h))));
-            }
-        }
+
+        //if (w < 0) {
+        //    if (h < 0) {
+        //        if (Random.value < 0.5F) {
+        //            halls.Add(CreateRectangle(new Vector3(point2.x,point1.y, point1.z), new Vector3(Mathf.Abs(w), 1,1), "h"));
+        //            halls.Add(CreateRectangle(new Vector3(point2.x, point2.y, point2.z), new Vector3(1,1, Mathf.Abs(h)), "h"));
+        //        }
+        //        else {
+        //            halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1), "h"));
+        //            halls.Add(CreateRectangle(new Vector3(point1.x, point1.y , point2.z), new Vector3(1,1, Mathf.Abs(h)), "h"));
+        //        }
+        //    }
+        //    else if (h > 0) {
+        //        if (Random.value < 0.5F) {
+        //            halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point1.z), new Vector3(Mathf.Abs(w), 1, 1), "v"));
+        //            halls.Add(CreateRectangle(new Vector3(point2.x, point2.y, point1.z), new Vector3(1, 1, Mathf.Abs(h)), "v"));
+        //        }
+        //        else {
+        //            halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(Mathf.Abs(w), 1, 1), "h"));
+        //            halls.Add(CreateRectangle(new Vector3(point1.x, point2.y, point1.z), new Vector3(1, 1, Mathf.Abs(h)), "h"));
+        //        }
+        //    }
+        //    else // if (h == 0)
+        //    {
+        //        halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(Mathf.Abs(w), 1, 1), "h"));
+        //    }
+        //}
+        //else if (w > 0) {
+        //    if (h < 0) {
+        //        if (Random.value < 0.5F) {
+        //            halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1), "v"));
+        //                halls.Add(CreateRectangle(new Vector3(point1.x, point1.y, point2.z), new Vector3(1, Mathf.Abs(h)), "v"));
+        //            }
+        //        else {
+        //            halls.Add(CreateRectangle(new Vector3(point1.x, point1.y ,point1.z), new Vector3(Mathf.Abs(w), 1,1), "v"));
+        //                halls.Add(CreateRectangle(new Vector3(point2.x,point1.y, point2.z), new Vector3(1, 1, Mathf.Abs(h)), "v"));
+        //            }
+        //    }
+        //    else if (h > 0) {
+        //        if (Random.value < 0.5F) {
+        //            halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point1.z), new Vector3(Mathf.Abs(w), 1,1 ), "v"));
+        //                halls.Add(CreateRectangle(new Vector3(point2.x, point1.y,point1.z), new Vector3(1, Mathf.Abs(h)), "v"));
+        //            }
+        //        else {
+        //            halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point2.z), new Vector3(Mathf.Abs(w), 1,1 ), "v"));
+        //                halls.Add(CreateRectangle(new Vector3(point1.x,point1.y, point1.z), new Vector3(1,1, Mathf.Abs(h)), "v"));
+        //            }
+        //    }
+        //    else // if (h == 0)
+        //    {
+        //        halls.Add(CreateRectangle(new Vector3(point1.x, point1.y, point1.z), new Vector3(Mathf.Abs(w), 1,1), "v"));
+        //        }
+        //}
+        //else // if (w == 0)
+        //{
+        //    if (h < 0) {
+        //        halls.Add(CreateRectangle(new Vector3(point2.x, point1.y, point2.z), new Vector3(1,1, Mathf.Abs(h)), "v"));
+        //        }
+        //    else if (h > 0) {
+        //        halls.Add(CreateRectangle(new Vector3(point1.x, point1.y,point1.z), new Vector3(1,1, Mathf.Abs(h)), "v"));
+        //    }
+        //}
     }
 
     
     //TODO: Replace GameObject with data model.
 
-    public GameObject CreateRectangle(Vector3 position, Vector3 size)
+    public GameObject CreateRectangle(Vector3 position, Vector3 size, string orientation)
     {
         GameObject rect = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        rect.transform.position = new Vector3(position.x + size.x/2, 1.0F, position.z + size.z / 2);
+//        rect.transform.position = new Vector3(position.x + size.x/2, 1.0F, position.z + size.z / 2);
+        rect.transform.position = new Vector3(position.x, 1.0F, position.z );
+
         rect.transform.localScale = size;
 
-        rect.name = "Bridge";
+        rect.name = "Bridge" + orientation;
         rect.transform.SetParent(GameObject.Find("Bridges").transform);
 
         return rect;
@@ -235,12 +249,12 @@ public class TreeStructure : MonoBehaviour
 
     public float GetTop(GameObject obj)
     {
-        return obj.transform.position.y + obj.transform.localScale.y*0.5F /*- obj.transform.localScale.y*0.5F*/;
+        return obj.transform.position.z + obj.transform.localScale.z*0.5F /*- obj.transform.localScale.y*0.5F*/;
     }
 
     public float GetBottom(GameObject obj)
     {
-        return obj.transform.position.y - obj.transform.localScale.y*0.5F /*- obj.transform.localScale.y*0.5F*/;
+        return obj.transform.position.z - obj.transform.localScale.z*0.5F /*- obj.transform.localScale.y*0.5F*/;
     }
 
 }
