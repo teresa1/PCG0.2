@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 public class Range
 	{
 		float min, max;
@@ -20,4 +21,23 @@ public class Range
 			intersection.max = Mathf.Min(max, other.max);
 			return true;
 		}
+
+		public static List<Range> IntersectLists(List<Range> l1, List<Range> l2)
+		{
+			List<Range> intersections = new List<Range>();
+
+			foreach (var item1 in l1)
+			{
+				foreach (var item2 in l2)
+				{
+					Range intersection;
+					if (item1.Intersects(item2, out intersection))
+						intersections.Add(intersection);
+				}
+			}
+			return intersections;
+		}
+
+		public float Length { get { return max - min; }}
+
 	}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -173,6 +174,63 @@ public class Node
         return new Rect(x1, y1, x2-x1, y2-y1);
 
 
+    }
+
+    public void GetBottomRanges(List<Range> r) {
+        if (room != null)
+        {
+            r.Add(new Range(room.transform.position.x - 0.5f * room.transform.localScale.x,
+                            room.transform.position.x + 0.5f * room.transform.localScale.x));
+        }
+        else
+        {
+            if (!horizontal) 
+                leftChild.GetBottomRanges(r);
+            
+            rightChild.GetBottomRanges(r);
+        }
+    }
+    public void GetTopRanges(List<Range> r) {
+        if (room != null)
+        {
+            r.Add(new Range(room.transform.position.x - 0.5f * room.transform.localScale.x,
+            room.transform.position.x + 0.5f * room.transform.localScale.x));
+        }
+        else
+        {
+            if (!horizontal)
+                rightChild.GetTopRanges(r);
+            
+            leftChild.GetTopRanges(r);
+        }
+    }
+      public void GetLeftRanges(List<Range> r) {
+        if (room != null)
+        {
+            r.Add(new Range(room.transform.position.z - 0.5f * room.transform.localScale.z,
+            room.transform.position.z + 0.5f * room.transform.localScale.z));
+        }
+        else
+        {
+            if (horizontal)
+                rightChild.GetLeftRanges(r);
+            
+            leftChild.GetLeftRanges(r);
+        }
+    }
+        public void GetRightRanges(List<Range> r) {
+        if (room != null)
+        {
+            r.Add(new Range(room.transform.position.z - 0.5f * room.transform.localScale.z,
+            room.transform.position.z + 0.5f * room.transform.localScale.z));
+        }
+        else
+        {
+            if (horizontal)
+                leftChild.GetRightRanges(r);
+            
+            rightChild.GetRightRanges(r);
+        }
     }
    
     #endregion
