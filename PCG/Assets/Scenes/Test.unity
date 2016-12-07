@@ -327,8 +327,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3996b288b546f439e29f546672b0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldWidth: 100
   worldLenght: 100
+  worldWidth: 100
+  maxLeafSize: 50
+  minLeafSize: 30
+  riverSize: 3
   nodes: []
   root:
     room: {fileID: 0}

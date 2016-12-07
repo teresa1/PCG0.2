@@ -75,8 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Node.cs" />
-    <Compile Include="Assets\Scripts\TreeStructure.cs" />
+    <Compile Include="Assets\Scripts\Faxime\Generation\BSP\Node.cs" />
+    <Compile Include="Assets\Scripts\Faxime\Generation\BSP\Range.cs" />
+    <Compile Include="Assets\Scripts\Faxime\Generation\BSP\TreeStructure.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
